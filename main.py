@@ -79,7 +79,7 @@ class PaginaDois(QWidget):
         super().__init__()
         self.setWindowTitle("Página Dois")
         self.setGeometry(100, 100, 300, 360)
-        
+
         paleta = self.palette()
         paleta.setColor(QPalette.Window, QColor("#ffede2"))
         self.setPalette(paleta)
@@ -164,7 +164,7 @@ class PaginaInicial(QWidget):
         layout.addWidget(self.imagem_label)
 
         # Botão que leva à segunda página
-        botao_para_pagina_dois = QPushButton('start')
+        botao_para_pagina_dois = QPushButton('Entrar')
         botao_para_pagina_dois.setStyleSheet(estilo_botao1)
         botao_para_pagina_dois.clicked.connect(self.abrir_pagina_dois)
         layout.addWidget(botao_para_pagina_dois)
