@@ -3,8 +3,9 @@
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QPushButton, QVBoxLayout, QLineEdit, QSpacerItem, QSizePolicy
 from PyQt5.QtGui import QPalette, QColor, QPixmap
 from PyQt5.QtCore import Qt
-
 from estilos import estilo_botao
+from bomba_etanol import BombaEtanol
+from bomba_gasolina import BombaGasolina
 
 
 class PaginaTres(QWidget):
@@ -70,3 +71,4 @@ class PaginaTres(QWidget):
         self.opcao_selecionada = "litros_para_valor"
         self.campo_valor.show()
         self.botao_calcular.show()
+    
