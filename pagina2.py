@@ -36,17 +36,17 @@ class PaginaDois(QWidget):
         # Adiciona três botões que levam para a página em branco
         botao1 = QPushButton('Gasolina')
         botao1.setStyleSheet(estilo_botao)
-        botao1.clicked.connect(self.abrir_pagina_em_branco)
+        botao1.clicked.connect(lambda: self.abrir_pagina_em_branco('Gasolina'))
         layout.addWidget(botao1)
 
         botao2 = QPushButton('Etanol')
         botao2.setStyleSheet(estilo_botao)
-        botao2.clicked.connect(self.abrir_pagina_em_branco)
+        botao2.clicked.connect(lambda: self.abrir_pagina_em_branco('Etanol'))
         layout.addWidget(botao2)
 
         botao3 = QPushButton('Gasolina Aditivada')
         botao3.setStyleSheet(estilo_botao)
-        botao3.clicked.connect(self.abrir_pagina_em_branco)
+        botao3.clicked.connect(lambda: self.abrir_pagina_em_branco('Gasolina Aditivada'))
         layout.addWidget(botao3)
 
         # Adiciona um espaçamento na parte inferior (caso precise de mais espaço após os botões)
@@ -58,9 +58,9 @@ class PaginaDois(QWidget):
         self.setLayout(layout)
 
     # Função para abrir a página em branco
-    def abrir_pagina_em_branco(self):
+    def abrir_pagina_em_branco(self, tipo_comb):
         self.hide()
-        self.pagina_em_branco = PaginaTres()  # Correção aqui (PáginaTres com P maiúsculo)
+        self.pagina_em_branco = PaginaTres(tipo_comb)  # Correção aqui (PáginaTres com P maiúsculo)
         pagina_2_geometry = self.geometry()
         self.pagina_em_branco.setGeometry(pagina_2_geometry)
         self.pagina_em_branco.show()

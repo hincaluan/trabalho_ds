@@ -24,4 +24,6 @@ class BombaGasolina(BombaCombustivel):
             super().set_quantidade(sobra)
             return valor
 
-
+class Bomba_gasolina_C(BombaCombustivel):
+    def __init__(self, valor, quantidade):
+        super().__init__(valor, quantidade)
