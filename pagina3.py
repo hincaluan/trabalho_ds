@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from estilos import estilo_botao
 from bomba_etanol import BombaEtanol
 from bomba_gasolina import BombaGasolina
-
+from pagina4 import PaginaQuatro  # Nova página para exibir resultados
 
 class PaginaTres(QWidget):
     def __init__(self, tipo_comb):
@@ -19,7 +19,6 @@ class PaginaTres(QWidget):
 
         layout = QVBoxLayout()
 
-        # Lixo
         self.label = QLabel()
         layout.addWidget(self.label)
 
@@ -32,7 +31,6 @@ class PaginaTres(QWidget):
 
         layout.addSpacerItem(QSpacerItem(60, 100, 60, 100))
 
-        # Botão para "Pagamento por Litros"
         self.botao_pagamento_por_litros = QPushButton('Litros')
         self.botao_pagamento_por_litros.setStyleSheet(estilo_botao)
         self.botao_pagamento_por_litros.clicked.connect(self.mostrar_campo_pagamento_por_litros)
@@ -40,19 +38,16 @@ class PaginaTres(QWidget):
 
         layout.addSpacerItem(QSpacerItem(10, 30, 10, 30))
 
-        # Botão para "Litros para Valor"
         self.botao_litros_para_valor = QPushButton('Valor')
         self.botao_litros_para_valor.setStyleSheet(estilo_botao)
         self.botao_litros_para_valor.clicked.connect(self.mostrar_campo_litros_para_valor)
         layout.addWidget(self.botao_litros_para_valor)
 
-        # Campo de entrada para o valor
         self.campo_valor = QLineEdit()
         self.campo_valor.setPlaceholderText("Digite o valor desejado")
         self.campo_valor.hide()
         layout.addWidget(self.campo_valor)
 
-        # Botão para realizar o cálculo
         self.botao_calcular = QPushButton('Calcular')
         self.botao_calcular.setStyleSheet(estilo_botao)
         self.botao_calcular.hide()
@@ -79,58 +74,37 @@ class PaginaTres(QWidget):
 
     def abastecer_por_litros(self):
         litros = float(self.campo_valor.text())
-        # Instanciar a bomba de combustível adequada
         if self.tipo_comb == "Etanol":
             self.bomba = BombaEtanol(2.00, 1000)
-            litros = float(self.campo_valor.text())  # Converte a string para float
-            total = self.bomba.abastecer_por_litros(litros)
-            if total == -1:
-                print("Quantidade de combustível insuficiente.")
-            else:
-                self.label.setText(f"Total a pagar: R$ {total:.2f}")  # Define o texto como string formatada
         elif self.tipo_comb == "Gasolina":
             self.bomba = BombaGasolina(5.00, 1000)
-            litros = float(self.campo_valor.text())
-            total = self.bomba.abastecer_por_litros(litros)
-            if total == -1:
-                print("Quantidade de combustível insuficiente.")
-            else:
-                self.label.setText(f"Total a pagar: R$ {total:.2f}") 
         elif self.tipo_comb == "Gasolina Aditivada":
             self.bomba = BombaGasolina(5.00, 1000)
-            litros = float(self.campo_valor.text())
-            total = self.bomba.abastecer_por_litros_com_adtivo(litros)
-            if total == -1:
-                print("Quantidade de combustível insuficiente.")
-            else:
-                self.label.setText(f"Total a pagar: R$ {total:.2f}")
 
-
+        total = self.bomba.abastecer_por_litros(litros)
+        if total == -1:
+            self.abrir_pagina_resultado("Erro", "Quantidade de combustível insuficiente.", 0)
+        else:
+            self.abrir_pagina_resultado("Resultado", f"Total a pagar: R$ {total:.2f}", litros)
 
     def abastecer_por_valor(self):
-        litros = float(self.campo_valor.text())
-        # Instanciar a bomba de combustível adequada
+        valor = float(self.campo_valor.text())
         if self.tipo_comb == "Etanol":
             self.bomba = BombaEtanol(2.00, 1000)
-            litros = float(self.campo_valor.text())  # Converte a string para float
-            total = self.bomba.abastecer_por_valor(litros)
-            if total == -1:
-                print("Quantidade de combustível insuficiente.")
-            else:
-                self.label.setText(f"valor abastecido: {total:.2f}")  # Define o texto como string formatada
         elif self.tipo_comb == "Gasolina":
             self.bomba = BombaGasolina(5.00, 1000)
-            litros = float(self.campo_valor.text())
-            total = self.bomba.abastecer_por_valor(litros)
-            if total == -1:
-                print("Quantidade de combustível insuficiente.")
-            else:
-                self.label.setText(f"valor abastecido: {total:.2f}") 
         elif self.tipo_comb == "Gasolina Aditivada":
             self.bomba = BombaGasolina(5.00, 1000)
-            litros = float(self.campo_valor.text())
-            total = self.bomba.abastecer_por_valor_com_aditivo(litros)
-            if total == -1:
-                print("Quantidade de combustível insuficiente.")
-            else:
-                self.label.setText(f"valor abastecido: {total:.2f}")
+
+        litros = self.bomba.abastecer_por_valor(valor)
+        if litros == -1:
+            self.abrir_pagina_resultado("Erro", "Quantidade de combustível insuficiente.", 0)
+        else:
+            self.abrir_pagina_resultado("Resultado", f"Litros abastecidos: {litros:.2f}", litros)
+
+    def abrir_pagina_resultado(self, titulo, mensagem, litros):
+        self.hide()
+        self.pagina_resultado = PaginaQuatro(titulo, mensagem, litros)
+        pagina_geometry = self.geometry()
+        self.pagina_resultado.setGeometry(pagina_geometry)
+        self.pagina_resultado.show()
