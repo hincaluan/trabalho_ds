@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QPushButton, QVBoxLayout, QLineEdit, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QPushButton, QVBoxLayout, QLineEdit, QSpacerItem, QSizePolicy, QHBoxLayout
 from PyQt5.QtGui import QPalette, QColor
 from PyQt5.QtCore import Qt
 from estilos import estilo_botao
@@ -18,6 +18,14 @@ class PaginaTres(QWidget):
         self.setPalette(paleta)
 
         layout = QVBoxLayout()
+
+        layout_voltar = QHBoxLayout()
+        botao_para_pagina_dois = QPushButton('Voltar')
+        botao_para_pagina_dois.setStyleSheet( "padding: 5px 10px;")
+        botao_para_pagina_dois.clicked.connect(self.abrir_pagina_dois)
+        layout_voltar.addWidget(botao_para_pagina_dois)
+        layout_voltar.addSpacerItem(QSpacerItem(20, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        layout.addLayout(layout_voltar)
 
         self.label = QLabel()
         layout.addWidget(self.label)
@@ -108,3 +116,10 @@ class PaginaTres(QWidget):
         pagina_geometry = self.geometry()
         self.pagina_resultado.setGeometry(pagina_geometry)
         self.pagina_resultado.show()
+
+    def abrir_pagina_dois(self):
+        from pagina2 import PaginaDois  
+        self.hide()
+        self.pagina_dois = PaginaDois()
+        self.pagina_dois.setGeometry(self.geometry())
+        self.pagina_dois.show()
