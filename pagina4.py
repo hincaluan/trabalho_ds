@@ -54,7 +54,7 @@ class PaginaQuatro(QWidget):
 
     def criar_fogos(self):
         """Cria partículas de fogos em posições aleatórias."""
-        for _ in range(10):  # Cria várias partículas de uma vez
+        for _ in range(15):  # Cria várias partículas de uma vez
             x = random.randint(50, self.width() - 50)
             y = random.randint(50, self.height() - 150)
             cor = QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))

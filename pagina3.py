@@ -81,6 +81,11 @@ class PaginaTres(QWidget):
         self.botao_calcular.clicked.connect(self.abastecer_por_valor)
 
     def abastecer_por_litros(self):
+     try:
+        litros = float(self.campo_valor.text())
+        if litros <= 0:
+            raise ValueError("Quantidade inválida.")
+    
         litros = float(self.campo_valor.text())
         if self.tipo_comb == "Etanol":
             self.bomba = BombaEtanol(2.00, 1000)
@@ -94,8 +99,15 @@ class PaginaTres(QWidget):
             self.abrir_pagina_resultado("Erro", "Quantidade de combustível insuficiente.", 0)
         else:
             self.abrir_pagina_resultado("Resultado", f"Total a pagar: R$ {total:.2f}", litros)
+     except ValueError:
+        self.abrir_pagina_resultado("Erro", "Por favor, insira um número válido.", 0)
 
     def abastecer_por_valor(self):
+     try:
+        litros = float(self.campo_valor.text())
+        if litros <= 0:
+            raise ValueError("Quantidade inválida.")
+    
         valor = float(self.campo_valor.text())
         if self.tipo_comb == "Etanol":
             self.bomba = BombaEtanol(2.00, 1000)
@@ -109,7 +121,9 @@ class PaginaTres(QWidget):
             self.abrir_pagina_resultado("Erro", "Quantidade de combustível insuficiente.", 0)
         else:
             self.abrir_pagina_resultado("Resultado", f"Litros abastecidos: {litros:.2f}", litros)
-
+     except ValueError:
+         self.abrir_pagina_resultado("Erro", "Por favor, insira um número válido.", 0)
+         
     def abrir_pagina_resultado(self, titulo, mensagem, litros):
         self.hide()
         self.pagina_resultado = PaginaQuatro(titulo, mensagem, litros)
